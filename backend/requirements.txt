@@ -1,0 +1,66 @@
+# ============================================================
+# 职准星 - 后端 Python 依赖清单
+# 安装：pip install -r requirements.txt
+# 生成：pip freeze > requirements.txt  (生产环境锁定版本)
+# ============================================================
+
+# ---------- Web 框架与 ASGI 服务器 ----------
+fastapi>=0.111.0,<0.112.0
+# FastAPI 异步 Web 框架，提供 RESTful API 路由、请求校验、自动文档
+
+uvicorn[standard]>=0.30.0,<0.31.0
+# ASGI 服务器，启动 fastapi 应用，支持 HTTP/WebSocket
+
+pydantic>=2.7.0,<3.0.0
+# 数据模型与请求/响应校验（API 输入输出 Schema）
+
+python-multipart>=0.0.9,<0.1.0
+# FastAPI 文件上传（multipart/form-data）支持
+
+# ---------- LLM 调用 ----------
+openai>=1.35.0,<2.0.0
+# OpenAI 兼容 API 客户端（调用 DeepSeek / 豆包 / mimo-v2.5 等）
+
+httpx>=0.27.0,<0.28.0
+# HTTP 异步客户端（openai 库的底层传输依赖）
+
+# ---------- 向量数据库 ----------
+chromadb>=0.5.3,<0.6.0
+# ChromaDB 本地嵌入式向量数据库，存储知识库嵌入并执行相似度检索
+
+# ---------- PDF 解析 ----------
+PyMuPDF>=1.24.7,<2.0.0
+# PyMuPDF(fitz) 原生 PDF 解析，提取纯文本，零外部 RPC 服务依赖
+
+# ---------- docx 报告生成 ----------
+python-docx>=1.1.2,<2.0.0
+# 生成 docx 格式差距分析报告（7 章节，含表格/列表/标题/页眉）
+
+# ---------- 会话存储 ----------
+sqlmodel>=0.0.19,<0.1.0
+# SQLModel ORM，管理 SQLite 会话表（Session 模型 + CRUD 操作）
+
+# ---------- 环境变量 ----------
+python-dotenv>=1.0.1,<2.0.0
+# 加载 .env 文件到 os.environ（集中管理 API Key、路径等配置）
+
+# ---------- 异步 ----------
+# asyncio / typing — Python 3.11+ 内置，无需额外安装
+# asyncio: 并行 LLM 任务编排（gather + wait_for 超时控制）
+# typing:  类型注解支持
+
+# ============================================================
+# 版本兼容说明
+# ============================================================
+# Python      >= 3.11       （async/await、类型注解）
+# fastapi     >= 0.111      （支持 lifespan、Pydantic v2）
+# uvicorn     >= 0.30       （支持 lifespan、HTTP/2）
+# chromadb    >= 0.5.3      （PersistentClient API）
+# openai      >= 1.35       （AsyncOpenAI、response_format）
+# PyMuPDF     >= 1.24.7     （fitz.open(stream=bytes) 流式解析）
+# sqlmodel    >= 0.0.19     （sa_column JSON 字段支持）
+# python-docx >= 1.1.2      （Document.save 到 BytesIO）
+# pydantic    >= 2.7        （BaseModel、Field 校验）
+#
+# 全部依赖无系统级 C++ 编译需求，pip install 即可完成。
+# ChromaDB 在 Windows 下会自动下载预编译的 onnxruntime 二进制。
